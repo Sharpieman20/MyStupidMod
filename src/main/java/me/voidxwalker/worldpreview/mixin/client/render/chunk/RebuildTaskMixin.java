@@ -22,12 +22,12 @@ public class RebuildTaskMixin {
 
     public RebuildTaskMixin() {
 
-        
+
     }
 
     private void myCodeInner(ChunkRendererRegion region) {
 
-        throw new IllegalStateException();
+//        throw new IllegalStateException();
     }
 
     @Redirect(method = "run(Lnet/minecraft/client/render/chunk/BlockBufferBuilderStorage;)Ljava/util/concurrent/CompletableFuture;", at = @At(value = "FIELD", target = targetString, opcode = Opcodes.PUTFIELD))

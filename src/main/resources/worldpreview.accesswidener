@@ -3,4 +3,15 @@ accessible    class    net/minecraft/client/world/ClientChunkManager$ClientChunk
 accessible    class    net/minecraft/client/render/WorldRenderer$ChunkInfo
 accessible    method    net/minecraft/client/render/WorldRenderer$ChunkInfo    <init>    (Lnet/minecraft/client/render/WorldRenderer;Lnet/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk;Lnet/minecraft/util/math/Direction;I)V
 accessible    class    net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask
-accessible   field   net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask   region   public
+accessible    field   net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask   region   public
+accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion chunkXOffset public
+accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion chunkZOffset public
+accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion offset public
+accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion xSize public
+accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion ySize public
+accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion zSize public
+accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion chunks public
+accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion blockStates public
+accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion fluidStates public
+accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion world public
+accessible method  net/minecraft/client/render/chunk/ChunkRendererRegion getIndex public

@@ -24,6 +24,7 @@
     "client.render.chunk.BuiltChunkMixin",
     "client.render.chunk.ChunkBuilderMixin",
     "client.render.chunk.RebuildTaskMixin",
+    "client.render.chunk.ChunkRendererRegionMixin",
     "server.MinecraftServerMixin",
     "server.ServerChunkManagerMixin",
     "server.ServerPlayerEntityMixin"

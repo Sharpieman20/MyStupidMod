@@ -8,21 +8,23 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.WorldChunk;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ChunkRendererRegion.class)
 public abstract class ChunkRendererRegionMixin {
 
     @Mutable @Shadow public int chunkXOffset;
-    @Mutable @Shadow public int chunkZOffset;
-    @Mutable @Shadow public BlockPos offset;
-    @Mutable @Shadow public int xSize;
+    @Shadow @Mutable @Final public int chunkZOffset;
+    @Shadow @Mutable @Final public BlockPos offset;
+    @Shadow @Mutable public int xSize;
     @Mutable @Shadow public int ySize;
     @Mutable @Shadow public int zSize;
     @Mutable @Shadow public WorldChunk[][] chunks;
@@ -31,9 +33,24 @@ public abstract class ChunkRendererRegionMixin {
     @Mutable @Shadow public World world;
     @Shadow public abstract int getIndex(BlockPos pos);
 
+    private int tempXSize = 0;
+
     private ChunkRendererRegion getChunkRendererRegion() {
 
         return ((ChunkRendererRegion) ((Object)this));
+    }
+
+    @Redirect(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;xSize:I", opcode = Opcodes.PUTFIELD))
+    private void injected(ChunkRendererRegion obj, int val) {
+
+        tempXSize = val;
+        this.xSize = 0;
+    }
+
+    @Redirect(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;blockStates:[Lnet/minecraft/block/BlockState;", opcode = Opcodes.PUTFIELD))
+    private void injected(ChunkRendererRegion obj, BlockState[] val) {
+
+        this.blockStates = new BlockState[this.tempXSize*this.ySize*this.ySize];
     }
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Ljava/lang/Object;<init>()V", shift = At.Shift.AFTER), cancellable = true)

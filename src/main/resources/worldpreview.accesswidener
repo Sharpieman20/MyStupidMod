@@ -3,15 +3,15 @@ accessible    class    net/minecraft/client/world/ClientChunkManager$ClientChunk
 accessible    class    net/minecraft/client/render/WorldRenderer$ChunkInfo
 accessible    method    net/minecraft/client/render/WorldRenderer$ChunkInfo    <init>    (Lnet/minecraft/client/render/WorldRenderer;Lnet/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk;Lnet/minecraft/util/math/Direction;I)V
 accessible    class    net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask
-accessible    field   net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask   region   public
-accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion chunkXOffset public
-accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion chunkZOffset public
-accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion offset public
-accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion xSize public
-accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion ySize public
-accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion zSize public
-accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion chunks public
-accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion blockStates public
-accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion fluidStates public
-accessible field  net/minecraft/client/render/chunk/ChunkRendererRegion world public
-accessible method  net/minecraft/client/render/chunk/ChunkRendererRegion getIndex public
+accessible    field    net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask    region    Lnet/minecraft/client/render/chunk/ChunkRendererRegion;
+accessible    field    net/minecraft/client/render/chunk/ChunkRendererRegion    chunkXOffset    I
+accessible    field    net/minecraft/client/render/chunk/ChunkRendererRegion    chunkZOffset    I
+accessible    field    net/minecraft/client/render/chunk/ChunkRendererRegion    offset    Lnet/minecraft/util/math/BlockPos;
+accessible    field    net/minecraft/client/render/chunk/ChunkRendererRegion    xSize    I
+accessible    field    net/minecraft/client/render/chunk/ChunkRendererRegion    ySize    I
+accessible    field    net/minecraft/client/render/chunk/ChunkRendererRegion    zSize    I
+accessible    field    net/minecraft/client/render/chunk/ChunkRendererRegion    chunks    [[Lnet/minecraft/world/chunk/WorldChunk;
+accessible    field    net/minecraft/client/render/chunk/ChunkRendererRegion    blockStates    [Lnet/minecraft/block/BlockState;
+accessible    field    net/minecraft/client/render/chunk/ChunkRendererRegion    fluidStates    [Lnet/minecraft/fluid/FluidState;
+accessible    field    net/minecraft/client/render/chunk/ChunkRendererRegion    world    Lnet/minecraft/world/World;
+accessible    method    net/minecraft/client/render/chunk/ChunkRendererRegion    getIndex    (III)I

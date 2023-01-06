@@ -8,9 +8,16 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class BlockStateArrayHolder {
 
+
+
     private static ConcurrentHashMap<Integer, ConcurrentLinkedQueue<BlockStateArrayHolder>> freeHoldersBySize;
 
-    private ConcurrentLinkedQueue<BlockStateArrayHolder> freeHolders;
+    private static ConcurrentLinkedQueue<BlockStateArrayHolder> freeHolders;
+
+    static {
+        freeHoldersBySize = new ConcurrentHashMap<>();
+        freeHolders = new ConcurrentLinkedQueue<>();
+    }
 
     public BlockState[] array;
 
@@ -34,14 +41,10 @@ public class BlockStateArrayHolder {
         return myHolder;
     }
 
-    public void set(int index, BlockState value) {
-        array[index] = value;
-    }
-
     public void release() {
-        for (int i = 0; i < array.length; i++) {
-            array[i] = null;
-        }
+//        for (int i = 0; i < array.length; i++) {
+//            array[i] = null;
+//        }
         getQueue(array.length).add(this);
     }
 }

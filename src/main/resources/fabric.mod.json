@@ -15,9 +15,13 @@
 
   "environment": "*",
   "entrypoints": {
+    "preLaunch": [
+      "com.llamalad7.mixinextras.MixinExtrasBootstrap::init"
+    ],
     "client": [
       "me.voidxwalker.worldpreview.WorldPreview"
-    ]
+    ],
+
   },
   "accessWidener": "worldpreview.accesswidener",
 

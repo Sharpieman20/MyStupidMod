@@ -2,6 +2,8 @@ package me.voidxwalker.worldpreview.mixin.client.render.chunk;
 
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import me.voidxwalker.worldpreview.BlockStateArrayHolder;
+import me.voidxwalker.worldpreview.Releaseable;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.render.chunk.ChunkRendererRegion;
@@ -21,7 +23,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ChunkRendererRegion.class)
-public abstract class ChunkRendererRegionMixin {
+public abstract class ChunkRendererRegionMixin implements Releaseable {
 
     @Mutable @Shadow public int chunkXOffset;
     @Shadow @Mutable @Final public int chunkZOffset;
@@ -36,6 +38,7 @@ public abstract class ChunkRendererRegionMixin {
     @Shadow public abstract int getIndex(BlockPos pos);
 
     private int tempXSize = 0;
+    private BlockStateArrayHolder holder;
 
     private ChunkRendererRegion getChunkRendererRegion() {
 
@@ -57,6 +60,17 @@ public abstract class ChunkRendererRegionMixin {
     @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;fluidStates:[Lnet/minecraft/fluid/FluidState;", shift=At.Shift.BEFORE, ordinal = 0))
     public void mymod_myCode(World world, int chunkX, int chunkZ, WorldChunk[][] chunks, BlockPos startPos, BlockPos endPos, CallbackInfo ci) {
 
-        this.blockStates = new BlockState[this.xSize*this.ySize*this.zSize];
+//        this.blockStates = new BlockState[this.xSize*this.ySize*this.zSize];
+        holder = BlockStateArrayHolder.create(this.xSize*this.ySize*this.zSize);
+        this.blockStates = holder.array;
+    }
+
+    public void myNewmethod_release() {
+
+        if (holder != null) {
+
+            holder.release();
+            holder = null;
+        }
     }
 }

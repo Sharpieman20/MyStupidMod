@@ -1,5 +1,6 @@
 package me.voidxwalker.worldpreview.mixin.client.render.chunk;
 
+import me.voidxwalker.worldpreview.Releaseable;
 import net.minecraft.client.render.chunk.ChunkBuilder;
 import net.minecraft.client.render.chunk.ChunkRendererRegion;
 import org.apache.logging.log4j.LogManager;
@@ -25,26 +26,38 @@ public class RebuildTaskMixin {
 
     }
 
-    private void myCodeInner(ChunkRendererRegion region) {
+    private void myCodeInner(ChunkRendererRegion oldValue, ChunkRendererRegion newValue) {
 
-//        throw new IllegalStateException();
+        if (oldValue == null) {
+
+            return;
+        }
+
+        if (newValue != null) {
+
+            return;
+        }
+
+        Releaseable releaseable = ((Releaseable) ((Object) oldValue));
+
+        releaseable.myNewmethod_release();
     }
 
     @Redirect(method = "run(Lnet/minecraft/client/render/chunk/BlockBufferBuilderStorage;)Ljava/util/concurrent/CompletableFuture;", at = @At(value = "FIELD", target = targetString, opcode = Opcodes.PUTFIELD))
     private void injected(ChunkBuilder.BuiltChunk.RebuildTask instance, ChunkRendererRegion value) {
 
-        myCodeInner(value);
+        myCodeInner(instance.region, value);
     }
 
     @Redirect(method = "render(FFFLnet/minecraft/client/render/chunk/ChunkBuilder$ChunkData;Lnet/minecraft/client/render/chunk/BlockBufferBuilderStorage;)Ljava/util/Set;", at = @At(value = "FIELD", target = targetString, opcode = Opcodes.PUTFIELD))
     private void injected2(ChunkBuilder.BuiltChunk.RebuildTask instance, ChunkRendererRegion value) {
 
-        myCodeInner(value);
+        myCodeInner(instance.region, value);
     }
 
     @Redirect(method = "cancel()V", at = @At(value = "FIELD", target = targetString, opcode = Opcodes.PUTFIELD))
     private void injected3(ChunkBuilder.BuiltChunk.RebuildTask instance, ChunkRendererRegion value) {
 
-        myCodeInner(value);
+        myCodeInner(instance.region, value);
     }
 }

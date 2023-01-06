@@ -62,7 +62,13 @@ public abstract class ChunkRendererRegionMixin implements Releaseable {
         this.blockStates = blockStateHolder.array;
     }
 
-    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;fluidStates:[Lnet/minecraft/fluid/FluidState;", shift=At.Shift.AFTER, ordinal = 0))
+    @WrapWithCondition(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;fluidStates:[Lnet/minecraft/fluid/FluidState;", ordinal = 0))
+    private boolean mymode_myskip2(ChunkRendererRegion obj, FluidState[] val) {
+
+        return false;
+    }
+
+    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;fluidStates:[Lnet/minecraft/fluid/FluidState;", shift=At.Shift.AFTER, by=2, ordinal = 0))
     public void mymod_myCode2(World world, int chunkX, int chunkZ, WorldChunk[][] chunks, BlockPos startPos, BlockPos endPos, CallbackInfo ci) {
 
 //        this.blockStates = new BlockState[this.xSize*this.ySize*this.zSize];

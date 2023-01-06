@@ -20,8 +20,7 @@
     ],
     "client": [
       "me.voidxwalker.worldpreview.WorldPreview"
-    ],
-
+    ]
   },
   "accessWidener": "worldpreview.accesswidener",
 

@@ -1,5 +1,6 @@
 package me.voidxwalker.worldpreview.mixin.client.render.chunk;
 
+import com.llamalad7.mixinextras.injector.WrapWithCondition;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.render.chunk.ChunkRendererRegion;
@@ -47,10 +48,16 @@ public abstract class ChunkRendererRegionMixin {
 //        this.xSize = 0;
 //    }
 
-    @Redirect(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;blockStates:[Lnet/minecraft/block/BlockState;", opcode = Opcodes.PUTFIELD, ordinal = 0))
-    private void injected2(ChunkRendererRegion obj, BlockState[] val) {
+//    @Redirect(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;blockStates:[Lnet/minecraft/block/BlockState;", opcode = Opcodes.PUTFIELD, ordinal = 0))
+//    private void injected2(ChunkRendererRegion obj, BlockState[] val) {
+//
+//        this.blockStates = new BlockState[16*this.ySize*this.ySize];
+//    }
 
-        this.blockStates = new BlockState[16*this.ySize*this.ySize];
+    @WrapWithCondition(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;blockStates:[Lnet/minecraft/block/BlockState;"))
+    private boolean injected2(ChunkRendererRegion obj, BlockState[] val) {
+
+        return false;
     }
 
     @Inject(method = "<init>", at = @At(value = "TAIL"))

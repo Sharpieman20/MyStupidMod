@@ -1,25 +1,21 @@
 package me.voidxwalker.worldpreview.mixin.client.render.chunk;
 
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import me.voidxwalker.worldpreview.BlockStateArrayHolder;
+import me.voidxwalker.worldpreview.FluidStateArrayHolder;
 import me.voidxwalker.worldpreview.Releaseable;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.render.chunk.ChunkRendererRegion;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.WorldChunk;
-import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Mutable;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ChunkRendererRegion.class)
@@ -38,7 +34,8 @@ public abstract class ChunkRendererRegionMixin implements Releaseable {
     @Shadow public abstract int getIndex(BlockPos pos);
 
     private int tempXSize = 0;
-    private BlockStateArrayHolder holder;
+    private BlockStateArrayHolder blockStateHolder;
+    private FluidStateArrayHolder fluidStateHolder;
 
     private ChunkRendererRegion getChunkRendererRegion() {
 
@@ -61,16 +58,30 @@ public abstract class ChunkRendererRegionMixin implements Releaseable {
     public void mymod_myCode(World world, int chunkX, int chunkZ, WorldChunk[][] chunks, BlockPos startPos, BlockPos endPos, CallbackInfo ci) {
 
 //        this.blockStates = new BlockState[this.xSize*this.ySize*this.zSize];
-        holder = BlockStateArrayHolder.create(this.xSize*this.ySize*this.zSize);
-        this.blockStates = holder.array;
+        blockStateHolder = BlockStateArrayHolder.create(this.xSize*this.ySize*this.zSize);
+        this.blockStates = blockStateHolder.array;
+    }
+
+    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;fluidStates:[Lnet/minecraft/fluid/FluidState;", shift=At.Shift.AFTER, ordinal = 0))
+    public void mymod_myCode2(World world, int chunkX, int chunkZ, WorldChunk[][] chunks, BlockPos startPos, BlockPos endPos, CallbackInfo ci) {
+
+//        this.blockStates = new BlockState[this.xSize*this.ySize*this.zSize];
+        fluidStateHolder = FluidStateArrayHolder.create(this.xSize*this.ySize*this.zSize);
+        this.fluidStates = fluidStateHolder.array;
     }
 
     public void myNewmethod_release() {
 
-        if (holder != null) {
+        if (blockStateHolder != null) {
 
-            holder.release();
-            holder = null;
+            blockStateHolder.release();
+            blockStateHolder = null;
+        }
+
+        if (fluidStateHolder != null) {
+
+            fluidStateHolder.release();
+            fluidStateHolder = null;
         }
     }
 }

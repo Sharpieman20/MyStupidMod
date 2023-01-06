@@ -1,6 +1,7 @@
 package me.voidxwalker.worldpreview.mixin.client.render.chunk;
 
 import com.llamalad7.mixinextras.injector.WrapWithCondition;
+import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.render.chunk.ChunkRendererRegion;
@@ -40,13 +41,6 @@ public abstract class ChunkRendererRegionMixin {
 
         return ((ChunkRendererRegion) ((Object)this));
     }
-//
-//    @Redirect(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;xSize:I", opcode = Opcodes.PUTFIELD))
-//    private void injected(ChunkRendererRegion obj, int val) {
-//
-//        tempXSize = val;
-//        this.xSize = 0;
-//    }
 
 //    @Redirect(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;blockStates:[Lnet/minecraft/block/BlockState;", opcode = Opcodes.PUTFIELD, ordinal = 0))
 //    private void injected2(ChunkRendererRegion obj, BlockState[] val) {
@@ -54,14 +48,15 @@ public abstract class ChunkRendererRegionMixin {
 //        this.blockStates = new BlockState[16*this.ySize*this.ySize];
 //    }
 
-    @WrapWithCondition(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;blockStates:[Lnet/minecraft/block/BlockState;"))
-    private boolean injected2(ChunkRendererRegion obj, BlockState[] val) {
+    @WrapWithCondition(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;blockStates:[Lnet/minecraft/block/BlockState;", ordinal = 0))
+    private boolean mymode_myskip(ChunkRendererRegion obj, BlockState[] val) {
 
         return false;
     }
 
-    @Inject(method = "<init>", at = @At(value = "TAIL"))
+    @Inject(method = "<init>", at = @At(value = "FIELD", target = "Lnet/minecraft/client/render/chunk/ChunkRendererRegion;fluidStates:[Lnet/minecraft/fluid/FluidState;", shift=At.Shift.BEFORE, ordinal = 0))
     public void mymod_myCode(World world, int chunkX, int chunkZ, WorldChunk[][] chunks, BlockPos startPos, BlockPos endPos, CallbackInfo ci) {
-        this.xSize = tempXSize;
+
+        this.blockStates = new BlockState[this.xSize*this.ySize*this.zSize];
     }
 }
